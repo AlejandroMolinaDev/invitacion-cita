@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Un café, un postre y un paseo</title>
+<meta name="description" content="Invitación: T'art Pâtisserie By Thomas Gautun, Morelia. 9 de agosto, 12:00 pm.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --espresso:#2A1A12;
+  --cacao:#5C3A26;
+  --moka:#8D6E58;
+  --crema:#F3E7D8;
+  --vainilla:#FDF8F0;
+  --ladrillo:#A85438;
+  --rosa:#E0AE9F;
+  --linea:rgba(92,58,38,.22);
+  --linea-soft:rgba(92,58,38,.11);
+
+  --gutter:clamp(20px,6vw,56px);
+  --ease:cubic-bezier(.22,.7,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  font-family:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-weight:300;
+  color:var(--cacao);
+  background:var(--crema);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ---------- atmósfera ---------- */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(64vw 50vh at 22% 6%, #FFFCF7 0%, rgba(255,252,247,0) 64%),
+    radial-gradient(56vw 46vh at 92% 84%, #EBD9C4 0%, rgba(235,217,196,0) 68%),
+    linear-gradient(168deg,#F8EFE2 0%,var(--crema) 58%,#E9D9C6 100%);
+}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.rule-frame{position:fixed;inset:clamp(9px,2.2vw,20px);z-index:2;pointer-events:none;
+  border:1px solid var(--linea-soft);border-radius:2px}
+
+/* ---------- escenario ---------- */
+.stage{position:relative;z-index:3;height:100svh;height:100dvh}
+.screen{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(18px,3.4vh,30px);
+  padding:calc(var(--gutter) + env(safe-area-inset-top)) var(--gutter)
+          calc(var(--gutter) + env(safe-area-inset-bottom));
+  text-align:center;
+  overflow-y:auto;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .6s var(--ease),visibility .6s;
+}
+.screen.on{opacity:1;visibility:visible;pointer-events:auto}
+
+/* entrada escalonada */
+.screen.on .rise{animation:rise .8s var(--ease) both}
+.screen.on .rise:nth-child(2){animation-delay:.08s}
+.screen.on .rise:nth-child(3){animation-delay:.16s}
+.screen.on .rise:nth-child(4){animation-delay:.24s}
+.screen.on .rise:nth-child(5){animation-delay:.32s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* ---------- tipografía ---------- */
+.kicker{
+  font-size:clamp(.6rem,2vw,.7rem);letter-spacing:.4em;text-transform:uppercase;
+  font-weight:400;color:var(--ladrillo);
+}
+
+.display{
+  font-family:"Fraunces",Georgia,"Times New Roman",serif;
+  font-weight:400;font-optical-sizing:auto;
+  color:var(--espresso);line-height:1.03;letter-spacing:-.02em;
+}
+.display i{font-style:italic;font-weight:300}
+
+.hair{width:44px;height:1px;background:var(--linea);border:0}
+
+/* ---------- 1 · inicio ---------- */
+.cup{width:clamp(96px,26vw,132px);color:var(--cacao)}
+.cup svg{width:100%;height:auto;display:block}
+.steam path{
+  stroke-dasharray:60;
+  animation:steam 4.6s ease-in-out infinite;
+  opacity:0;
+}
+.steam path:nth-child(2){animation-delay:1.5s}
+.steam path:nth-child(3){animation-delay:3s}
+@keyframes steam{
+  0%{stroke-dashoffset:60;opacity:0;transform:translateY(6px)}
+  25%{opacity:.55}
+  70%{opacity:.35}
+  100%{stroke-dashoffset:0;opacity:0;transform:translateY(-10px)}
+}
+.title-one{font-size:clamp(2.15rem,8.6vw,4.4rem);max-width:11ch}
+
+/* ---------- botón ---------- */
+.btn{
+  font-family:"Jost",sans-serif;font-weight:400;
+  font-size:clamp(.78rem,2.5vw,.86rem);letter-spacing:.24em;text-transform:uppercase;
+  padding:clamp(15px,3.6vw,18px) clamp(28px,7vw,40px);
+  border-radius:999px;cursor:pointer;border:1px solid transparent;
+  background:var(--ladrillo);color:var(--vainilla);
+  box-shadow:0 14px 30px -16px rgba(92,58,38,.85);
+  transition:transform .35s var(--ease),background .3s,box-shadow .35s var(--ease);
+}
+.btn:hover{background:#8F452E;transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98)}
+
+/* ---------- 2 · la tarjeta ---------- */
+#s2{justify-content:center}
+.card-wrap{filter:drop-shadow(0 22px 34px rgba(92,58,38,.16));width:min(100%,440px);margin:0 auto}
+.card{
+  position:relative;background:var(--vainilla);
+  padding:clamp(30px,7.5vw,42px) clamp(22px,6vw,36px) clamp(34px,7.5vw,44px);
+  text-align:center;
+}
+.card::before,.card::after{
+  content:"";position:absolute;left:0;right:0;height:11px;
+  background:radial-gradient(circle at 11px 11px,var(--vainilla) 10.5px,transparent 11px);
+  background-size:22px 11px;background-repeat:repeat-x;
+}
+.card::before{top:-11px;transform:scaleY(-1)}
+.card::after{bottom:-11px}
+.card__edge{position:absolute;inset:8px;border:1px solid var(--linea-soft);pointer-events:none}
+
+.venue{font-size:clamp(1.5rem,5.6vw,2.05rem);margin-top:10px;line-height:1.12}
+.venue small{
+  display:block;font-family:"Jost",sans-serif;font-weight:300;
+  font-size:clamp(.72rem,2.4vw,.8rem);letter-spacing:.24em;text-transform:uppercase;
+  color:var(--moka);margin-top:12px;
+}
+
+.divider{display:flex;align-items:center;gap:12px;margin:clamp(20px,5vw,26px) 0}
+.divider span{flex:1;height:1px;background:var(--linea)}
+.divider b{
+  font-weight:400;font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--rosa);
+}
+
+.plan{list-style:none;text-align:left;display:grid;gap:14px}
+.plan li{display:flex;align-items:baseline;gap:10px}
+.plan .t{
+  font-size:clamp(.72rem,2.4vw,.8rem);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ladrillo);white-space:nowrap;font-weight:400;
+}
+.plan .dots{flex:1;border-bottom:1px dotted var(--linea);transform:translateY(-4px)}
+.plan .d{font-size:clamp(.86rem,2.8vw,.95rem);color:var(--cacao);text-align:right;max-width:56%}
+
+.datebox{display:flex;align-items:center;justify-content:center;gap:clamp(14px,4vw,22px)}
+.datebox .num{
+  font-family:"Fraunces",serif;font-size:clamp(3rem,13vw,4.4rem);line-height:.9;
+  color:var(--espresso);font-weight:300;
+}
+.datebox .meta{text-align:left;display:grid;gap:5px}
+.datebox .meta span{
+  font-size:clamp(.66rem,2.2vw,.74rem);letter-spacing:.28em;text-transform:uppercase;color:var(--moka);
+}
+.datebox .meta span:first-child{color:var(--ladrillo)}
+
+/* ---------- accesibilidad ---------- */
+:focus-visible{outline:1.5px solid var(--ladrillo);outline-offset:4px;border-radius:999px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (prefers-reduced-motion:reduce){
+  .steam path{animation:none;opacity:.4;stroke-dashoffset:0}
+  .screen.on .rise{animation-duration:.01s}
+  .screen{transition-duration:.2s}
+  .btn{transition-duration:.15s}
+}
+
+@media (min-width:820px){
+  .screen{gap:clamp(22px,3.2vh,34px)}
+  .card-wrap{width:460px}
+}
+@media (orientation:landscape) and (max-height:560px){
+  #s1{justify-content:flex-start;gap:14px}
+  .cup{width:76px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="grain"></div>
+<div class="rule-frame"></div>
+
+<main class="stage">
+
+  <!-- ============ 1 · INICIO ============ -->
+  <section class="screen on" id="s1">
+    <p class="kicker rise">Morelia, Michoacan</p>
+
+    <div class="cup rise" aria-hidden="true">
+      <svg viewBox="0 0 130 122" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <g class="steam" stroke-width="1.4">
+          <path d="M50 42c7-7-7-13 0-20s-5-11 0-16"/>
+          <path d="M65 40c7-7-7-13 0-20s-5-11 0-16"/>
+          <path d="M80 42c7-7-7-13 0-20s-5-11 0-16"/>
+        </g>
+        <path d="M28 54h74l-7 40c-1 6-6 10-12 10H47c-6 0-11-4-12-10z"/>
+        <path d="M102 62c11 1 17 6 16 15s-9 13-20 13"/>
+        <path d="M18 110c14 5 30 7 47 7s33-2 47-7"/>
+        <path d="M44 68h42" stroke-width="1.1" opacity=".45"/>
+      </svg>
+    </div>
+
+    <h1 class="display title-one rise">Un cafe, un postre <i>y un paseo</i></h1>
+    <hr class="hair rise">
+
+    <button class="btn rise" id="open">Abrir invitacion</button>
+  </section>
+
+  <!-- ============ 2 · LA INVITACION ============ -->
+  <section class="screen" id="s2">
+    <div class="card-wrap rise">
+      <article class="card">
+        <div class="card__edge" aria-hidden="true"></div>
+
+        <p class="kicker">Mesa para dos</p>
+        <h2 class="display venue">T&rsquo;art Patisserie <small>By Thomas Gautun</small></h2>
+
+        <div class="divider" aria-hidden="true"><span></span><b>El plan</b><span></span></div>
+
+        <ul class="plan">
+          <li>
+            <span class="t">12:00 pm</span>
+            <span class="dots" aria-hidden="true"></span>
+            <span class="d">Cafe y postre en la patisserie</span>
+          </li>
+          <li>
+            <span class="t">Despues</span>
+            <span class="dots" aria-hidden="true"></span>
+            <span class="d">Caminata tranquila por el Boulevard</span>
+          </li>
+        </ul>
+
+        <div class="divider" aria-hidden="true"><span></span><b>La fecha</b><span></span></div>
+
+        <div class="datebox">
+          <span class="num">09</span>
+          <span class="meta">
+            <span>Agosto</span>
+            <span>Domingo</span>
+            <span>12:00 pm</span>
+          </span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<p class="sr" id="live" role="status" aria-live="polite"></p>
+
+<script>
+(function(){
+  "use strict";
+
+  var s1 = document.getElementById('s1');
+  var s2 = document.getElementById('s2');
+  var live = document.getElementById('live');
+
+  document.getElementById('open').addEventListener('click', function(){
+    s1.classList.remove('on');
+    s2.classList.add('on');
+    s2.scrollTop = 0;
+    live.textContent = 'Invitacion: T\u2019art Patisserie, 9 de agosto, 12:00 pm.';
+  });
+})();
+</script>
+</body>
+</html>
